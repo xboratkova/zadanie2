@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 typedef struct{
 	unsigned int rows;
@@ -9,7 +10,7 @@ typedef struct{
 
 #define ELEM(A,r,c) (A.elem[(A.cols)*r+c])
 
-void LUdecomposition(MAT *a, MAT *l, MAT *u, int n) {
+char LUdecomposition(MAT a, MAT l, MAT u, int n) {
 	int i,j,k;
 	for(i = 0; i < n; i++){
 		for(j = 0; j < n; j++){
@@ -47,7 +48,7 @@ void LUdecomposition(MAT *a, MAT *l, MAT *u, int n) {
 		printf("Zadajte velkost matice nxn:");
 		scanf("%d", &n);
 		
-		int pole[n*n];
+		int pole[n*n], pole1[n*n], pole2[n*n];
 		
 		a.cols = n;
 		u.cols = n;
@@ -58,11 +59,13 @@ void LUdecomposition(MAT *a, MAT *l, MAT *u, int n) {
 		l.rows = n;
 		
 		a.elem = pole;
-		u.elem = pole;
-		l.elem = pole;
+		u.elem = pole1;
+		l.elem = pole2;
 		
 		printf("Zadajte, aka ma byt najvyssia mozna hodnota prkov v matici:");
 		scanf("%d", &s);
+		
+		srand((unsigned int)time(NULL));
 		
 		for(i = 0; i < n; i++){
 			for(j = 0; j < n; j++){
@@ -74,25 +77,25 @@ void LUdecomposition(MAT *a, MAT *l, MAT *u, int n) {
 		printf("Matica A:\n");
 		for(i = 0; i < n; i++){
 			for(j = 0; j < n; j++){
-				printf("%.2f", ELEM(a,i,j));
+				printf("%.2f  ", ELEM(a,i,j));
 			}
 			printf("\n");
 		}
 			
-		printf("Matica U:\n");
+		printf("Matica L:\n");
 		for(i = 0; i < n; i++){
 			for(j = 0; j < n; j++){
-				printf("%.2f", ELEM(u,i,j));
+				printf("%.2f  ", ELEM(l,i,j));
 			}
 			printf("\n");
 		}
-		printf("Matica L:\n");
-			for(i = 0; i < n; i++){
-				for(j = 0; j < n; j++){
-					printf("%.2f", ELEM(l,i,j));
-				}
-				printf("\n");
+		printf("Matica U:\n");
+		for(i = 0; i < n; i++){
+			for(j = 0; j < n; j++){
+				printf("%.2f  ", ELEM(u,i,j));
 			}
+			printf("\n");
+		}
 	}
 	
 
