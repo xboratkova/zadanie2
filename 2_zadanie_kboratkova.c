@@ -40,6 +40,17 @@ char LUdecomposition(MAT a, MAT l, MAT u, int n) {
 		}
 	}
 	
+char nasobenie(MAT l, MAT u, MAT nasobok, int n){
+	int i,j,k;
+	for(i = 0; i < n; i++){
+		for(j = 0; j < n; j++){
+			for(k = 0; k < n; k++){
+				ELEM(nasobok, i, j) += ELEM(l, i, k)*ELEM(u, k ,j);
+			}
+		}
+	}
+}
+	
 	int main(){
 		MAT a, l, u;
 		
@@ -96,6 +107,23 @@ char LUdecomposition(MAT a, MAT l, MAT u, int n) {
 			}
 			printf("\n");
 		}
+		
+		MAT nasobok;
+		nasobok.cols = n;
+		nasobok.rows = n;
+		float pole3[n*n];
+		nasobok.elem = pole3;
+		
+		nasobenie(l,u,nasobok,n);
+		
+		printf("Nasobenie L a U:\n");
+		for(i = 0; i < n; i++){
+			for(j = 0; j < n; j++){
+				printf("%.2f  ",ELEM(nasobok,i,j));
+			}
+			printf("\n");
+		}
+		
 	}
 	
 
