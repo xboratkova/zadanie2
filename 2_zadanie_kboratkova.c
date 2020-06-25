@@ -69,5 +69,30 @@ void LUdecomposition(MAT *a, MAT *l, MAT *u, int n) {
 				ELEM(a,i,j) = ((float)rand()/(float)(RAND_MAX))*s;
 			}
 		}
+		LUdecomposition(a, l, u, n);
+			
+		printf("Matica A:\n");
+		for(i = 0; i < n; i++){
+			for(j = 0; j < n; j++){
+				printf("%.2f", ELEM(a,i,j));
+			}
+			printf("\n");
+		}
+			
+		printf("Matica U:\n");
+		for(i = 0; i < n; i++){
+			for(j = 0; j < n; j++){
+				printf("%.2f", ELEM(u,i,j));
+			}
+			printf("\n");
+		}
+		printf("Matica L:\n");
+			for(i = 0; i < n; i++){
+				for(j = 0; j < n; j++){
+					printf("%.2f", ELEM(l,i,j));
+				}
+				printf("\n");
+			}
 	}
+	
 
