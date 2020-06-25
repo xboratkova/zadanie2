@@ -42,7 +42,7 @@ void LUdecomposition(MAT *a, MAT *l, MAT *u, int n) {
 	int main(){
 		MAT a, l, u;
 		
-		int i,j,n;
+		int i,j,n,s;
 		
 		printf("Zadajte velkost matice nxn:");
 		scanf("%d", &n);
@@ -60,5 +60,14 @@ void LUdecomposition(MAT *a, MAT *l, MAT *u, int n) {
 		a.elem = pole;
 		u.elem = pole;
 		l.elem = pole;
+		
+		printf("Zadajte, aka ma byt najvyssia mozna hodnota prkov v matici:");
+		scanf("%d", &s);
+		
+		for(i = 0; i < n; i++){
+			for(j = 0; j < n; j++){
+				ELEM(a,i,j) = ((float)rand()/(float)(RAND_MAX))*s;
+			}
+		}
 	}
 
