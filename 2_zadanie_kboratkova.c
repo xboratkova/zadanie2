@@ -50,6 +50,18 @@ char nasobenie(MAT l, MAT u, MAT nasobok, int n){
 		}
 	}
 }
+
+int skuska(MAT a, MAT nasobok, int n){
+	int i,j;
+	for(i = 0; i < n; i++){
+		for(j = 0; j < n; j++){
+			if(ELEM(a,i,j) != ELEM(nasobok,i,j)){
+				return 0;
+			}
+		}
+	}
+	return 1;
+}
 	
 	int main(){
 		MAT a, l, u;
@@ -124,6 +136,10 @@ char nasobenie(MAT l, MAT u, MAT nasobok, int n){
 			printf("\n");
 		}
 		
+		if(skuska(a,nasobok,n) == 1)
+			printf("Nasobok LU je zhodny s maticou A");
+		else 
+			printf("Nasbok LU nie je zhodny s maticou A, niekde nastala chyba");
 	}
 	
 
