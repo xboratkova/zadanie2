@@ -39,4 +39,26 @@ void LUdecomposition(MAT *a, MAT *l, MAT *u, int n) {
 		}
 	}
 	
+	int main(){
+		MAT a, l, u;
+		
+		int i,j,n;
+		
+		printf("Zadajte velkost matice nxn:");
+		scanf("%d", &n);
+		
+		int pole[n*n];
+		
+		a.cols = n;
+		u.cols = n;
+		l.cols = n;
+		
+		a.rows = n;
+		u.rows = n;
+		l.rows = n;
+		
+		a.elem = pole;
+		u.elem = pole;
+		l.elem = pole;
+	}
 
