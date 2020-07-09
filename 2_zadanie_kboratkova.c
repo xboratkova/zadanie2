@@ -40,7 +40,7 @@ char LUdecomposition(MAT a, MAT l, MAT u, int n) {
 		}
 	}
 	
-char nasobenie(MAT l, MAT u, MAT nasobok, int n){
+void nasobenie(MAT l, MAT u, MAT nasobok, int n){
 	int i,j,k;
 	for(i = 0; i < n; i++){
 		for(j = 0; j < n; j++){
@@ -71,7 +71,7 @@ int skuska(MAT a, MAT nasobok, int n){
 		printf("Zadajte velkost matice nxn:");
 		scanf("%d", &n);
 		
-		int pole[n*n], pole1[n*n], pole2[n*n];
+		float pole[n*n], pole1[n*n], pole2[n*n];
 		
 		a.cols = n;
 		u.cols = n;
@@ -126,12 +126,12 @@ int skuska(MAT a, MAT nasobok, int n){
 		float pole3[n*n];
 		nasobok.elem = pole3;
 		
-		nasobenie(l,u,nasobok,n);
+		nasobenie(l, u, nasobok, n);
 		
 		printf("Nasobenie L a U:\n");
 		for(i = 0; i < n; i++){
 			for(j = 0; j < n; j++){
-				printf("%.2f  ",ELEM(nasobok,i,j));
+				printf("%.2f  ", ELEM(nasobok,i,j));
 			}
 			printf("\n");
 		}
