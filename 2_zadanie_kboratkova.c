@@ -8,9 +8,9 @@ typedef struct{
 	float *elem;
 }MAT;
 
-#define ELEM(A,r,c) (A.elem[(A.cols)*r+c])
+#define ELEM(A,r,c) (A->elem[(A->cols)*c+r])
 
-char LUdecomposition(MAT a, MAT l, MAT u, int n) {
+char mat_LU_decompose(MAT *a, MAT *l, MAT *u, int n) {
 	int i,j,k;
 	for(i = 0; i < n; i++){
 		for(j = 0; j < n; j++){
@@ -40,7 +40,7 @@ char LUdecomposition(MAT a, MAT l, MAT u, int n) {
 		}
 	}
 	
-void nasobenie(MAT l, MAT u, MAT nasobok, int n){
+void nasobenie(MAT *l, MAT *u, MAT *nasobok, int n){
 	int i,j,k;
 	for(i = 0; i < n; i++){
 		for(j = 0; j < n; j++){
@@ -51,7 +51,7 @@ void nasobenie(MAT l, MAT u, MAT nasobok, int n){
 	}
 }
 
-int skuska(MAT a, MAT nasobok, int n){
+int skuska(MAT *a, MAT *nasobok, int n){
 	int i,j;
 	for(i = 0; i < n; i++){
 		for(j = 0; j < n; j++){
@@ -63,10 +63,43 @@ int skuska(MAT a, MAT nasobok, int n){
 	return 1;
 }
 	
+void mat_unit(MAT *mat, int n){
+	int i,j;
+	for(i=0; i<n; i++){
+		for(j=0; j<n; j++){
+			if(i==j) ELEM(mat, i, j)=1;
+			else ELEM(mat, i ,j)=0;
+		}
+	}
+}
+void mat_random(MAT *mat, int n){
+	int i,j;
+	
+	
+	for(i=0; i<n; i++){
+		for(j=0; j<n; j++){
+			ELEM(mat, i, j)= -1+(1-(-1))*((float)rand()/(float)(RAND_MAX));
+		}
+	}
+}
+
+void mat_print(MAT *mat, int n){
+	int i, j;
+	
+	for(i=0; i<n; i++){
+		for(j=0; j<n; j++){
+			if(ELEM(mat,i,j)<0) printf(" %.2f", ELEM(mat, i, j));
+			else printf("  %.2f", ELEM(mat, i, j));
+		}
+		printf("\n");
+	}
+}
 	int main(){
 		MAT a, l, u;
 		
-		int i,j,n,s;
+		int i,j,n;
+		
+		srand(time(NULL));
 		
 		printf("Zadajte velkost matice nxn:");
 		scanf("%d", &n);
@@ -85,40 +118,19 @@ int skuska(MAT a, MAT nasobok, int n){
 		u.elem = pole1;
 		l.elem = pole2;
 		
-		printf("Zadajte, aka ma byt najvyssia mozna hodnota prkov v matici:");
-		scanf("%d", &s);
 		
-		srand((unsigned int)time(NULL));
-		
-		for(i = 0; i < n; i++){
-			for(j = 0; j < n; j++){
-				ELEM(a,i,j) = ((float)rand()/(float)(RAND_MAX))*s;
-			}
-		}
-		LUdecomposition(a, l, u, n);
+		mat_random(&a,n);
 			
 		printf("Matica A:\n");
-		for(i = 0; i < n; i++){
-			for(j = 0; j < n; j++){
-				printf("%.2f  ", ELEM(a,i,j));
-			}
-			printf("\n");
-		}
+		mat_print(&a, n);
+		
+		mat_LU_decompose(&a, &l, &u, n);
 			
 		printf("Matica L:\n");
-		for(i = 0; i < n; i++){
-			for(j = 0; j < n; j++){
-				printf("%.2f  ", ELEM(l,i,j));
-			}
-			printf("\n");
-		}
+		mat_print(&l,n);
+		
 		printf("Matica U:\n");
-		for(i = 0; i < n; i++){
-			for(j = 0; j < n; j++){
-				printf("%.2f  ", ELEM(u,i,j));
-			}
-			printf("\n");
-		}
+		mat_print(&u,n);
 		
 		MAT nasobok;
 		nasobok.cols = n;
@@ -126,20 +138,17 @@ int skuska(MAT a, MAT nasobok, int n){
 		float pole3[n*n];
 		nasobok.elem = pole3;
 		
-		nasobenie(l, u, nasobok, n);
+		nasobenie(&l, &u, &nasobok, n);
 		
 		printf("Nasobenie L a U:\n");
-		for(i = 0; i < n; i++){
-			for(j = 0; j < n; j++){
-				printf("%.2f  ", ELEM(nasobok,i,j));
-			}
-			printf("\n");
-		}
+		mat_print(&nasobok, n);
 		
-		if(skuska(a,nasobok,n) == 1)
-			printf("Nasobok LU je zhodny s maticou A");
+		if(skuska(&a, &nasobok, n)==1)
+			printf("Nasobok LU je zhodny s maticou A\n");
 		else 
-			printf("Nasbok LU nie je zhodny s maticou A, niekde nastala chyba");
+			printf("Nasbok LU nie je zhodny s maticou A, niekde nastala chyba\n");
+			
+
 	}
 	
 
