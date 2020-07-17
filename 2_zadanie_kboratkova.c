@@ -56,7 +56,7 @@ int skuska(MAT *a, MAT *nasobok){
 	int i,j;
 	for(i = 0; i < a->rows; i++){
 		for(j = 0; j < a->cols; j++){
-			if(ELEM(a,i,j) != ELEM(nasobok,i,j)){
+			if(ELEM(a,i,j) - ELEM(nasobok,i,j) > 0.0001){
 				return 0;
 			}
 		}
@@ -89,8 +89,8 @@ void mat_print(MAT *mat){
 	
 	for(i=0; i< mat->rows; i++){
 		for(j=0; j< mat->cols; j++){
-			if(ELEM(mat,i,j)<0) printf(" %.2f", ELEM(mat, i, j));
-			else printf("  %.2f", ELEM(mat, i, j));
+			if(ELEM(mat,i,j)<0) printf(" %.5f", ELEM(mat, i, j));
+			else printf("  %.5f", ELEM(mat, i, j));
 		}
 		printf("\n");
 	}
@@ -127,20 +127,10 @@ void mat_destroy(MAT *mat){
 		printf("Zadajte velkost matice nxn:");
 		scanf("%d", &n);
 		
-		float pole[n*n], pole1[n*n], pole2[n*n];
 		
-		a.cols = n;
-		u.cols = n;
-		l.cols = n;
-		
-		a.rows = n;
-		u.rows = n;
-		l.rows = n;
-		
-		a.elem = pole;
-		u.elem = pole1;
-		l.elem = pole2;
-		
+		a = *mat_create_with_type(n);
+		l = *mat_create_with_type(n);
+	    u = *mat_create_with_type(n);
 		
 		mat_random(&a);
 			
@@ -156,22 +146,22 @@ void mat_destroy(MAT *mat){
 		mat_print(&u);
 		
 		MAT nasobok;
-		nasobok.cols = n;
-		nasobok.rows = n;
-		float pole3[n*n];
-		nasobok.elem = pole3;
+		nasobok = *mat_create_with_type(n);
 		
 		nasobenie(&l, &u, &nasobok);
 		
 		printf("Nasobenie L a U:\n");
 		mat_print(&nasobok);
 		
-		if(skuska(&a, &nasobok)==1)
+		if((skuska(&a, &nasobok)) == 1)
 			printf("Nasobok LU je zhodny s maticou A\n");
 		else 
 			printf("Nasbok LU nie je zhodny s maticou A, niekde nastala chyba\n");
 			
-
+	mat_destroy(&a);
+	mat_destroy(&l);
+	mat_destroy(&u);
+	mat_destroy(&nasobok);
 	}
 	
 
