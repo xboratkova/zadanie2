@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -94,6 +95,28 @@ void mat_print(MAT *mat){
 		printf("\n");
 	}
 }
+
+MAT *mat_create_with_type(int n){
+	MAT *mat = malloc(sizeof(MAT));
+	
+	if(mat == NULL) return NULL;
+	
+	mat->rows = n;
+	mat->cols = n;
+	
+	if((mat->elem = malloc(sizeof(float)*n*n)) == NULL){
+		free(mat);
+		return NULL;
+		
+	}
+return mat;
+}
+
+void mat_destroy(MAT *mat){
+	free(mat);
+	free(mat->elem);
+}
+
 	int main(){
 		MAT a, l, u;
 		
